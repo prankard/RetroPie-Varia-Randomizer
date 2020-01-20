@@ -3,7 +3,7 @@
 ## Grab ini-reading functions from retropie
 #readonly rootdir="/opt/retropie"
 #source "$rootdir/lib/inifuncs.sh"
-PARAMS_FILE=games/varia-parameters.ini
+PARAMS_FILE=varia-parameters.ini
 
 parameter_names=()
 parameter_values=()
@@ -58,31 +58,33 @@ function generate_sub_menu()
 
 # Choose between global config, system specific config, toggle byname
 function generate_menu() {
-    # Remake options
-    options=()
-    for i in "${!parameter_names[@]}"
-    do
-        newIndex=$((i+1))
-        options+=($newIndex "${parameter_names[$i]} - ${parameter_values[$i]}")
+    while true; do
+	    # Remake options
+	    options=()
+	    for i in "${!parameter_names[@]}"
+	    do
+        	newIndex=$((i+1))
+        	options+=($newIndex "${parameter_names[$i]} - ${parameter_values[$i]}")
 
-    done
-    options+=("G" "Generate")
+	    done
+    	options+=("G" "Generate")
 
-    # Show dialog
-    cmd=(dialog \
+    	# Show dialog
+	    cmd=(dialog \
             --title " Generate Rom " \
             --menu "Varia Randomizer Rom. Randomize your rom with the varia randomizer" 19 80 12)
-    choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
-    if [[ -n "$choice" ]]; then
-        if [[ "$choice" == "G" ]]; then
-            generate
-            break
-        else
-            generate_sub_menu $choice
-        fi
-    else
-        break
-    fi
+    	choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+    	if [[ -n "$choice" ]]; then
+    	    if [[ "$choice" == "G" ]]; then
+    	        generate
+    	        break
+    	    else
+    	        generate_sub_menu $choice
+    	    fi
+    	else
+    	    break
+    	fi
+    done
 } # end of main_menu()
 
 function generate() {
@@ -96,7 +98,7 @@ function generate() {
 
     # Generate
 	clear
-	./varia-randomizer-generate.sh $string_args
+	/bin/bash ./varia-randomizer-generate.sh $string_args
 	echo "Generated"
 }
 
@@ -140,4 +142,5 @@ function install_menu() {
     choice=$("${cmd[@]}" "${options_games[@]}" 2>&1 >/dev/tty)
 }
 
-main_menu
+#main_menu
+generate_menu

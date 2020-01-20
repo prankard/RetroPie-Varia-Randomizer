@@ -11,8 +11,8 @@
 #readonly PLUGIN_NAME="varia-randomizer"
 
 rp_module_id="varia-randomizer" # can't acces this? huh
-rp_module_desc="Allows customizable randomized versions of various roms to your game library"
-rp_module_help="Follow the instructions on the dialogs to configure random roms in your library"
+rp_module_desc="Super Metroid Randomized Rom with VARIA"
+rp_module_help="Follow the instructions on the dialogs to configure random super metroid rom in your library"
 rp_module_section="exp"
 
 function depends_varia-randomizer() {
@@ -20,7 +20,8 @@ function depends_varia-randomizer() {
 }
 
 function sources_varia-randomizer() {
-    gitPullOrClone "$md_build" "git@github.com:prankard/RetroPie-Varia-Randomizer.git"
+    gitPullOrClone "$md_build" "https://github.com/prankard/RetroPie-Varia-Randomizer.git"
+    gitPullOrClone "$md_build/varia" "https://github.com/theonlydude/RandomMetroidSolver.git"
 }
 
 function build_varia-randomizer() {
@@ -70,7 +71,6 @@ function install_varia-randomizer() {
         'varia-randomizer-generate.sh'
         'varia-parameters.ini'
         'varia-config.ini'
-        'varia'
     )
 }
 
