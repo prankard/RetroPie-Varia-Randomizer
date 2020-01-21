@@ -4,9 +4,10 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
 #OUTPUT=~/RetroPie/roms/snes/SuperMetroidRandomized.smc
 SOURCE="${BASH_SOURCE[0]}"
-TEMP=$SCRIPTPATH/TEMP
-OUTPUT=$SCRIPTPATH/generated.smc
-VANILLA=/opt/retropie/supplementary/varia-randomizer/rom.smc
+TEMP=/opt/retropie/supplementary/varia-randomizer/files/TEMP
+#OUTPUT=$SCRIPTPATH/generated.smc
+VANILLA=/opt/retropie/supplementary/varia-randomizer/files/rom.smc
+OUTPUT=/opt/retropie/supplementary/varia-randomizer/files/generated.smc
 rm -r -f $TEMP
 mkdir $TEMP
 rm -f $OUTPUT

@@ -22,6 +22,8 @@ function depends_varia-randomizer() {
 function sources_varia-randomizer() {
     gitPullOrClone "$md_build" "https://github.com/prankard/RetroPie-Varia-Randomizer.git"
     gitPullOrClone "$md_build/varia" "https://github.com/theonlydude/RandomMetroidSolver.git"
+    mkdir "$md_build/files"
+    chmod 777 "$md_build/files"
 }
 
 function build_varia-randomizer() {
@@ -71,7 +73,8 @@ function install_varia-randomizer() {
         'varia-randomizer-generate.sh'
         'varia-parameters.ini'
         'varia-config.ini'
-	'varia'
+	    'varia'
+	    'files'
     )
 }
 

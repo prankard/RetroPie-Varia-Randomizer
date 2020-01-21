@@ -60,14 +60,20 @@ function generate_sub_menu()
 # Choose between global config, system specific config, toggle byname
 function generate_menu() {
 
-    local romPath="/opt/retropie/supplementary/varia-randomizer/rom.smc"
+    local romPath="/opt/retropie/supplementary/varia-randomizer/files/rom.smc"
 
     if [ ! -f "$romPath" ]; then
-	hasRom "snes" "Super Metroid"
+        dialog --title "Not found Rom" --msgbox "Searching for super metroid rom" 6 20
+        hasRom "snes" "Super Metroid"
         if [[ "$?" == "1" ]]; then
             copyRom "snes" "Super Metroid" "$romPath"
-	fi
+            echo "copied rom"
+        else
+            dialog --title "Error" --msgbox "Cannot copy rom Super Metroid" 6 20
+            exit
+        fi
     fi
+    #exit
 
     while true; do
 	    # Remake options
