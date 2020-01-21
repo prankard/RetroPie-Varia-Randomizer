@@ -3,6 +3,7 @@
 ## Grab ini-reading functions from retropie
 #readonly rootdir="/opt/retropie"
 #source "$rootdir/lib/inifuncs.sh"
+source "functions.sh"
 PARAMS_FILE=varia-parameters.ini
 
 parameter_names=()
@@ -58,6 +59,16 @@ function generate_sub_menu()
 
 # Choose between global config, system specific config, toggle byname
 function generate_menu() {
+
+    local romPath="/opt/retropie/supplementary/varia-randomizer/rom.smc"
+
+    if [ ! -f "$romPath" ]; then
+	hasRom "snes" "Super Metroid"
+        if [[ "$?" == "1" ]]; then
+            copyRom "snes" "Super Metroid" "$romPath"
+	fi
+    fi
+
     while true; do
 	    # Remake options
 	    options=()
