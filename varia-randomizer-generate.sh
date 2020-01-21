@@ -15,7 +15,7 @@ rm -f $OUTPUT
 #echo "PRESET NAME: $PRESET_NAME"
 #~/RandomMetroidSolver/randomizer.py --rom $VANILLA --dir $TEMP --randoPreset $1 --preset $PRESET_NAME --param $1 --majorsSplit Major
 #~/RandomMetroidSolver/randomizer.py --rom $VANILLA --dir $TEMP --param $1 --majorsSplit $2
-cd varia
+cd /opt/retropie/supplementary/varia-randomizer/varia
 args_as_string="$*"
 ##echo "$str"
 echo "python3 randomizer.py --rom $VANILLA --dir $TEMP $args_as_string"
