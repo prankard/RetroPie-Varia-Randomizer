@@ -58,8 +58,10 @@ function hasRom() {
 #   Nothing
 #
 function copyRom() {
-    xml_command="xmlstarlet sel -t -v \"/gameList/game[name='$2']/path\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+    xml_command="xmlstarlet sel -t -v \"/gameList/game[name='$2']/path\" /home/pi/.emulationstation/gamelists/$1/gamelist.xml"
+    echo $xml_command
     rom_filename=$(eval $xml_command)
+    echo $rom_filename
     full_path="~/RetroPie/roms/$1/'$rom_filename'"
     source_rom_ext="${rom_filename##*.}"
     dest_rom_ext="${3#*.}"
@@ -79,7 +81,8 @@ function copyRom() {
         echo "unzipped"
         rm -r dump
     else
-        line="cp $full_path $3"    
+        line="cp \"$full_path\" \"$3\""
+        echo $line
         eval $line
         echo "copied"
     fi
