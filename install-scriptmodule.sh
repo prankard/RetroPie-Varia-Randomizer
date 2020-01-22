@@ -19,10 +19,10 @@ if [[ ! -d "$RP_SETUP_DIR" ]]; then
 fi
 
 # Temp
-echo "cp ${PLUGIN_SCRIPT_NAME} ${JS_SCRIPTMODULE_FULL}"
-cp ${PLUGIN_SCRIPT_NAME} ${JS_SCRIPTMODULE_FULL}
+#echo "cp ${PLUGIN_SCRIPT_NAME} ${JS_SCRIPTMODULE_FULL}"
+#cp ${PLUGIN_SCRIPT_NAME} ${JS_SCRIPTMODULE_FULL}
 # Real
-#curl "$JS_SCRIPTMODULE_URL" -o "$JS_SCRIPTMODULE_FULL"
+curl "$JS_SCRIPTMODULE_URL" -o "$JS_SCRIPTMODULE_FULL"
 
 if [[ ! -s "$JS_SCRIPTMODULE_FULL" ]]; then
     echo "Failed to install. Aborting..." >&2
