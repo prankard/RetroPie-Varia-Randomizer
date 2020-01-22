@@ -3,8 +3,8 @@
 ## Grab ini-reading functions from retropie
 #readonly rootdir="/opt/retropie"
 #source "$rootdir/lib/inifuncs.sh"
-source "functions.sh"
-PARAMS_FILE=varia-parameters.ini
+source "/opt/retropie/supplementary/varia-randomizer/functions.sh"
+PARAMS_FILE=/opt/retropie/supplementary/varia-randomizer/varia-parameters.ini
 
 parameter_names=()
 parameter_values=()
@@ -73,7 +73,7 @@ function generate_menu() {
             exit
         fi
     fi
-    #exit
+#    exit
 
     while true; do
 	    # Remake options
@@ -115,7 +115,7 @@ function generate() {
 
     # Generate
 	clear
-	/bin/bash ./varia-randomizer-generate.sh $string_args
+	/bin/bash /opt/retropie/supplementary/varia-randomizer/varia-randomizer-generate.sh $string_args
 	echo "Generated"
 }
 

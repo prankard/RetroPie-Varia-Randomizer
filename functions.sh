@@ -62,7 +62,7 @@ function copyRom() {
     echo $xml_command
     rom_filename=$(eval $xml_command)
     echo $rom_filename
-    full_path="~/RetroPie/roms/$1/'$rom_filename'"
+    full_path="/home/pi/RetroPie/roms/$1/'$rom_filename'"
     source_rom_ext="${rom_filename##*.}"
     dest_rom_ext="${3#*.}"
     echo $source_rom_ext

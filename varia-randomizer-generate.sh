@@ -2,12 +2,13 @@
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
-#OUTPUT=~/RetroPie/roms/snes/SuperMetroidRandomized.smc
+OUTPUT=/home/pi/RetroPie/roms/snes/SuperMetroidRandomized.smc
 SOURCE="${BASH_SOURCE[0]}"
 TEMP=/opt/retropie/supplementary/varia-randomizer/files/TEMP
 #OUTPUT=$SCRIPTPATH/generated.smc
 VANILLA=/opt/retropie/supplementary/varia-randomizer/files/rom.smc
-OUTPUT=/opt/retropie/supplementary/varia-randomizer/files/generated.smc
+#OUTPUT=/opt/retropie/supplementary/varia-randomizer/files/generated.smc
+#OUTPUT=/home/pi/RetroPie/roms/snes/varia-randomizer 
 rm -r -f $TEMP
 mkdir $TEMP
 rm -f $OUTPUT
@@ -34,7 +35,7 @@ done
 
 mv $TEMP/*.sfc $OUTPUT
 rm -r -f $TEMP
-#killall emulationstatio
-#xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" ~/.emulationstation/gamelists/snes/gamelist.xml
-#emulationstation &
+killall emulationstatio
+xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" /home/pi/.emulationstation/gamelists/snes/gamelist.xml
+emulationstation &
 
