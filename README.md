@@ -14,7 +14,7 @@ bash varia-install.sh
 3. The script will automatically download the joystick-selection scriptmodule and install everything you need. After installation you can safely delete the `install.sh` file:
 
 ```bash
-rm install.sh
+rm varia-install.sh
 ```
 
 4. **After that you are ready to use it via RetroPie menu in emulationstation:**
