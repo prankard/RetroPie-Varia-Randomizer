@@ -24,6 +24,9 @@ function sources_varia-randomizer() {
     gitPullOrClone "$md_build/varia" "https://github.com/theonlydude/RandomMetroidSolver.git"
     mkdir "$md_build/files"
     chmod 777 "$md_build/files"
+    user="$SUDO_USER"
+    [[ -z "$user" ]] && user="$(id -un)"
+    chown "$user:$user" "$md_build/files"
 }
 
 function build_varia-randomizer() {
