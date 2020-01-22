@@ -1,8 +1,11 @@
 #!/bin/bash
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+user="$SUDO_USER"
+[[ -z "$user" ]] && user="$(id -un)"
+home="$(eval echo ~$user)"
 
-OUTPUT=/home/pi/RetroPie/roms/snes/SuperMetroidRandomized.smc
+OUTPUT=$home/RetroPie/roms/snes/SuperMetroidRandomized.smc
 SOURCE="${BASH_SOURCE[0]}"
 TEMP=/opt/retropie/supplementary/varia-randomizer/files/TEMP
 #OUTPUT=$SCRIPTPATH/generated.smc
@@ -36,6 +39,6 @@ done
 mv $TEMP/*.sfc $OUTPUT
 rm -r -f $TEMP
 killall emulationstatio
-xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" /home/pi/.emulationstation/gamelists/snes/gamelist.xml
+xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/.emulationstation/gamelists/snes/gamelist.xml
 emulationstation &
 
