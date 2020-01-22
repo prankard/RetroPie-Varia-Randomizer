@@ -27,7 +27,7 @@ function sources_varia-randomizer() {
     user="$SUDO_USER"
     [[ -z "$user" ]] && user="$(id -un)"
     chown "$user:$user" "$md_build/files"
-    sed "s/appDir=.*/appDir=\"\/opt\/testdir\"/g" $md_build/varia/parameters.py
+    sed "s/appDir =.*/appDir = \"\/opt\/retropie\/supplementary\/varia-randomizer\/varia\"/g" $md_build/varia/parameters.py
 }
 
 function build_varia-randomizer() {
