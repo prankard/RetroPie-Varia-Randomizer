@@ -22,6 +22,7 @@ function depends_varia-randomizer() {
 function sources_varia-randomizer() {
     gitPullOrClone "$md_build" "https://github.com/prankard/RetroPie-Varia-Randomizer.git"
     gitPullOrClone "$md_build/varia" "https://github.com/theonlydude/RandomMetroidSolver.git"
+    rm -r "$md_build/varia/web"
     mkdir "$md_build/files"
     chmod 777 "$md_build/files"
 }
