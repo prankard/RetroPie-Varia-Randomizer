@@ -25,4 +25,6 @@ emulationstation
 
 #### Thanks to
 
+Of course, full credit to the [varia randomizer](https://randommetroidsolver.pythonanywhere.com/) which you can run on a web browser to generate roms, and full source found [here](https://github.com/theonlydude/RandomMetroidSolver).
+
 Thanks to the source files of [RetroPie Joystick Selection](https://github.com/meleu/RetroPie-joystick-selection) for their decent plugin that is very useful to follow and basic blatent copying of installation technique and scriptmodule setup
