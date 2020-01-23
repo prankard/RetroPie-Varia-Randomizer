@@ -44,7 +44,12 @@ done
 mv $TMP_DIR/*.sfc $OUTPUT
 rm -r -f $TMP_DIR
 #killall emulationstatio
-xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/../.emulationstation/gamelists/snes/gamelist.xml
+
+
+source "/opt/retropie/supplementary/varia-randomizer/functions.sh"
+addGameToXML "snes" "Super Metroid Randomized" "./SuperMetroidRandomized.smc" "$FILENAME" "Super Metroid"
+
+#xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/../.emulationstation/gamelists/snes/gamelist.xml
 #emulationstation &
 
 sleep 10
