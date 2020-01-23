@@ -51,5 +51,3 @@ addGameToXML "snes" "Super Metroid Randomized" "./SuperMetroidRandomized.smc" "$
 
 #xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/../.emulationstation/gamelists/snes/gamelist.xml
 #emulationstation &
-
-sleep 10
