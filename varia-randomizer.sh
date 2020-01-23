@@ -9,6 +9,7 @@ PARAMS_FILE=/opt/retropie/supplementary/varia-randomizer/varia-parameters.ini
 parameter_names=()
 parameter_values=()
 parameter_default_values=()
+parameter_friendly_values=()
 
 arguments=()
 
@@ -17,10 +18,15 @@ let i=0
 while IFS=$'\n' read -r line_data; do
     echo $line_data
     IFS='=' read -ra EQUAL_SPLIT <<< "$line_data"
-    parameter_names+=("${EQUAL_SPLIT[0]}")
+#    parameter_names+=("${EQUAL_SPLIT[0]}")
+    IFS='|' read -ra PIPE_SPLIT <<< "${EQUAL_SPLIT[0]}"
+    parameter_names+=("${PIPE_SPLIT[0]}")
+    parameter_friendly_names+=("${PIPE_SPLIT[1]}")
     IFS='|' read -ra PIPE_SPLIT <<< "${EQUAL_SPLIT[1]}"
     parameter_default_values+=("${PIPE_SPLIT[0]}")
     parameter_values+=("${PIPE_SPLIT[0]}")
+
+    echo "${PIPE_SPLIT[0]}"
 
     # Parse “${line_data}” to produce content 
     # that will be stored in the array.
@@ -48,8 +54,7 @@ function generate_sub_menu()
 
     cmd=(dialog \
          --title " Submenu " \
-         --menu "Submenu description" \
-         19 80 12
+         --menu "Submenu description" 19 80 12
     )
     choice=$("${cmd[@]}" "${sub_options[@]}" 2>&1 >/dev/tty)
     if [[ -n "$choice" ]]; then
@@ -80,27 +85,40 @@ function generate_menu() {
 	    options=()
 	    for i in "${!parameter_names[@]}"
 	    do
+		echo "${parameter_names[$i]} - ${parameter_values[$i]}"
         	newIndex=$((i+1))
-        	options+=($newIndex "${parameter_names[$i]} - ${parameter_values[$i]}")
+		echo $newIndex
+        	options+=($newIndex "${parameter_friendly_names[$i]} - ${parameter_values[$i]}")
+#		options[($i * 2)]=$newIndex
+#		options[($i * 2 + 1)]="${parameter_friendly_names[$i]} - ${parameter_values[$i]}"
+#		options+=($newIndex)
+#		options+="Test"
 
 	    done
     	options+=("G" "Generate")
+#exit
 
     	# Show dialog
-	    cmd=(dialog \
-            --title " Generate Rom " \
-            --menu "Varia Randomizer Rom. Randomize your rom with the varia randomizer" 19 80 12)
+	cmd=(dialog --title " Generate Rom " --menu "Varia Randomizer Rom. Randomize your rom with the varia randomizer" 19 80 12)
+#	echo $cmd
+#exit
+	echo "${cmd[@]}" "${options[@]}"
+#	exit
     	choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+#exit
     	if [[ -n "$choice" ]]; then
+            echo $choice
     	    if [[ "$choice" == "G" ]]; then
     	        generate
     	        break
     	    else
+#		echo "Test"
     	        generate_sub_menu $choice
     	    fi
     	else
     	    break
     	fi
+#	break
     done
 } # end of main_menu()
 
@@ -114,7 +132,7 @@ function generate() {
     done
 
     # Generate
-	clear
+	#clear
 	/bin/bash /opt/retropie/supplementary/varia-randomizer/varia-randomizer-generate.sh $string_args
 	echo "Generated"
 }

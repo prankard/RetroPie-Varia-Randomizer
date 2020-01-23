@@ -4,16 +4,21 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 user="$SUDO_USER"
 [[ -z "$user" ]] && user="$(id -un)"
 home="$(eval echo ~$user)"
+home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
 
-OUTPUT=$home/RetroPie/roms/snes/SuperMetroidRandomized.smc
+
+OUTPUT=$home/roms/snes/SuperMetroidRandomized.smc
+#OUTPUT=~/RetroPie/roms/snes/SuperMetroidRandomized.smc
 SOURCE="${BASH_SOURCE[0]}"
-TEMP=/opt/retropie/supplementary/varia-randomizer/files/TEMP
+TMP_DIR="$home/tmp"
+
+#TEMP=/opt/retropie/supplementary/varia-randomizer/files/TEMP
 #OUTPUT=$SCRIPTPATH/generated.smc
 VANILLA=/opt/retropie/supplementary/varia-randomizer/files/rom.smc
 #OUTPUT=/opt/retropie/supplementary/varia-randomizer/files/generated.smc
 #OUTPUT=/home/pi/RetroPie/roms/snes/varia-randomizer 
-rm -r -f $TEMP
-mkdir $TEMP
+rm -r -f $TMP_DIR
+mkdir $TMP_DIR
 rm -f $OUTPUT
 #echo "PRESET FILE: $1"
 #PRESET_NAME=$(basename $1 .json)
@@ -23,22 +28,23 @@ rm -f $OUTPUT
 cd /opt/retropie/supplementary/varia-randomizer/varia
 args_as_string="$*"
 ##echo "$str"
-echo "python3 randomizer.py --rom $VANILLA --dir $TEMP $args_as_string"
+#echo "python3 randomizer.py --rom $VANILLA --dir $TEMP --runtime 0 $args_as_string"
 #python3 randomizer.py --rom $VANILLA --dir $TEMP --majorsSplit Major --param standard_presets/casual.json
-python3 randomizer.py --rom $VANILLA --dir $TEMP $args_as_string
+python3 randomizer.py --rom $VANILLA --dir $TMP_DIR --runtime 999999999 $args_as_string
 cd ..
 
 FILENAME=""
-for f in $TEMP/*sfc
+for f in $TMP_DIR/*sfc
 do
         FILENAME=$(basename $f .sfc)
         break
 done
 #echo $FILENAME
 
-mv $TEMP/*.sfc $OUTPUT
-rm -r -f $TEMP
-killall emulationstatio
-xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/.emulationstation/gamelists/snes/gamelist.xml
-emulationstation &
+mv $TMP_DIR/*.sfc $OUTPUT
+rm -r -f $TMP_DIR
+#killall emulationstatio
+xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/../.emulationstation/gamelists/snes/gamelist.xml
+#emulationstation &
 
+sleep 10

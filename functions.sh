@@ -16,7 +16,8 @@
 #
 function addGameToXml() 
 {
-    xmlstarlet edit --inplace --update "/gameList/game[path='./$2']/desc" --value "$FILENAME" "~/.emulationstation/gamelists/$1/gamelist.xml"
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
+    xmlstarlet edit --inplace --update "/gameList/game[path='./$2']/desc" --value "$FILENAME" "$home/../.emulationstation/gamelists/$1/gamelist.xml"
 } 
 
 # end test
@@ -35,7 +36,8 @@ function addGameToXml()
 #   Nothing
 #
 function hasRom() {
-    xml_command="xmlstarlet sel -t -c \"count(/gameList/game[name='$2'])\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
+    xml_command="xmlstarlet sel -t -c \"count(/gameList/game[name='$2'])\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
     count=$(eval $xml_command)
     if [[ "$count" == "0" ]]; then
         return 0
@@ -60,13 +62,13 @@ function hasRom() {
 function copyRom() {
     user="$SUDO_USER"
     [[ -z "$user" ]] && user="$(id -un)"
-    home="$(eval echo ~$user)"
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
 
-    xml_command="xmlstarlet sel -t -v \"/gameList/game[name='$2']/path\" $home/.emulationstation/gamelists/$1/gamelist.xml"
+    xml_command="xmlstarlet sel -t -v \"/gameList/game[name='$2']/path\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
     echo $xml_command
     rom_filename=$(eval $xml_command)
     echo $rom_filename
-    full_path="$home/RetroPie/roms/$1/'$rom_filename'"
+    full_path="$home/roms/$1/'$rom_filename'"
     source_rom_ext="${rom_filename##*.}"
     dest_rom_ext="${3#*.}"
     echo $source_rom_ext
@@ -108,7 +110,8 @@ function copyRom() {
 #   "./path.rom"
 #
 function getRomPathFromName() {
-    path=$(eval  xmlstarlet sel -t -v "/gameList/game[name='$1']/path" ~/.emulationstation/gamelists/snes/gamelist.xml)
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
+    path=$(eval  xmlstarlet sel -t -v "/gameList/game[name='$1']/path" $home/../.emulationstation/gamelists/snes/gamelist.xml)
     return $path
 } # end test
 
@@ -130,41 +133,43 @@ function getRomPathFromName() {
 #   0 Fail
 #
 function addGameToXML() {
-    xml_command="xmlstarlet sel -t -c \"/gameList/game[name='${2}']\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
+
+    xml_command="xmlstarlet sel -t -c \"/gameList/game[name='${2}']\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
     #echo $xml_command
     xmlNode=$(eval $xml_command)
-    #xmlNode=$(eval xmlstarlet sel -t -c "/gameList/game[name='${2}']" ~/.emulationstation/gamelists/$1/gamelist.xml)
+    #xmlNode=$(eval xmlstarlet sel -t -c "/gameList/game[name='${2}']" $home/../.emulationstation/gamelists/$1/gamelist.xml)
     if [[ -z "$xmlNode" ]]; then
         # Copy new from original rom name
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/image\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/image\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         image=$(eval $xml_command)
         
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/rating\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/rating\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         rating=$(eval $xml_command)
         
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/releasedate\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/releasedate\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         releasedate=$(eval $xml_command)
         
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/developer\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/developer\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         developer=$(eval $xml_command)
         
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/publisher\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/publisher\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         publisher=$(eval $xml_command)
         
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/genre\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/genre\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         genre=$(eval $xml_command)
         
-        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/players\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet sel -t -v \"/gameList/game[name='${5}']/players\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         players=$(eval $xml_command)
 
         # add a new elemnt for the game
-        xml_command="xmlstarlet ed --inplace --subnode '/gameList' -type elem -n 'game' -s \"/gameList/game[last()]\" -type elem -n 'name' -v \"${2}\" -s \"/gameList/game[last()]\" -type elem -n 'path' -v \"${3}\" -s \"/gameList/game[last()]\" -type elem -n 'desc' -v \"${4}\" -s \"/gameList/game[last()]\" -type elem -n 'image' -v \"${image}\" -s \"/gameList/game[last()]\" -type elem -n 'rating' -v \"${rating}\" -s \"/gameList/game[last()]\" -type elem -n 'releasedate' -v \"${releasedate}\" -s \"/gameList/game[last()]\" -type elem -n 'developer' -v \"${developer}\" -s \"/gameList/game[last()]\" -type elem -n 'publisher' -v \"${publisher}\" -s \"/gameList/game[last()]\" -type elem -n 'genre' -v \"${genre}\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet ed --inplace --subnode '/gameList' -type elem -n 'game' -s \"/gameList/game[last()]\" -type elem -n 'name' -v \"${2}\" -s \"/gameList/game[last()]\" -type elem -n 'path' -v \"${3}\" -s \"/gameList/game[last()]\" -type elem -n 'desc' -v \"${4}\" -s \"/gameList/game[last()]\" -type elem -n 'image' -v \"${image}\" -s \"/gameList/game[last()]\" -type elem -n 'rating' -v \"${rating}\" -s \"/gameList/game[last()]\" -type elem -n 'releasedate' -v \"${releasedate}\" -s \"/gameList/game[last()]\" -type elem -n 'developer' -v \"${developer}\" -s \"/gameList/game[last()]\" -type elem -n 'publisher' -v \"${publisher}\" -s \"/gameList/game[last()]\" -type elem -n 'genre' -v \"${genre}\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         eval $xml_command
         
         echo "Made new node from original node"
     else
         # update old node element with new values
-        xml_command="xmlstarlet ed --inplace -u \"/gameList/game[name='${2}']/path\" -v \"$3\" -u \"/gameList/game[name='${2}']/desc\" -v \"$4\" ~/.emulationstation/gamelists/$1/gamelist.xml"
+        xml_command="xmlstarlet ed --inplace -u \"/gameList/game[name='${2}']/path\" -v \"$3\" -u \"/gameList/game[name='${2}']/desc\" -v \"$4\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
         eval $xml_command
         echo "Updated old node"
     fi
@@ -174,29 +179,6 @@ function addGameToXML() {
 } # end test
 
 #addGameToXML "snes" "Super Metroid Test" "./testromnew.smc" "new description a a a a" "Super Metroid"
-
-# FUNCTION INSTALL GAME
-# $1    plugin name
-function canInstallPlugin()
-{
-    # load plugin name functions file
-
-    md5_check="asdfasfdsdff"
-    md5_file=$(eval md5sum $file)
-    if [ diff -q $md5_file $md5_check ]; then
-        # forgot the not check
-    else
-        
-    fi
-
-    # unload plugin name functions file
-}
-
-# $1    plugin_name
-function hasInstalledPlugin()
-{
-    # check folder exists
-}
 
 # $1    plugin_name
 function installPlugin()
