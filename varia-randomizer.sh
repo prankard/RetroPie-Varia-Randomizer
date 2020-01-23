@@ -85,9 +85,7 @@ function generate_menu() {
 	    options=()
 	    for i in "${!parameter_names[@]}"
 	    do
-		echo "${parameter_names[$i]} - ${parameter_values[$i]}"
         	newIndex=$((i+1))
-		echo $newIndex
         	options+=($newIndex "${parameter_friendly_names[$i]} - ${parameter_values[$i]}")
 #		options[($i * 2)]=$newIndex
 #		options[($i * 2 + 1)]="${parameter_friendly_names[$i]} - ${parameter_values[$i]}"
@@ -107,7 +105,6 @@ function generate_menu() {
     	choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 #exit
     	if [[ -n "$choice" ]]; then
-            echo $choice
     	    if [[ "$choice" == "G" ]]; then
     	        generate
     	        break
