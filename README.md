@@ -7,7 +7,7 @@
 2. Download the `install.sh` script, and launch it:
 
 ```bash
-curl https://raw.githubusercontent.com/prankard/RetroPie-Varia-Randomize/master/install-scriptmodule.sh -o varia-install.sh
+curl https://raw.githubusercontent.com/prankard/RetroPie-Varia-Randomizer/master/install-scriptmodule.sh -o varia-install.sh
 bash varia-install.sh
 ```
 
