@@ -18,7 +18,6 @@ let i=0
 while IFS=$'\n' read -r line_data; do
     echo $line_data
     IFS='=' read -ra EQUAL_SPLIT <<< "$line_data"
-#    parameter_names+=("${EQUAL_SPLIT[0]}")
     IFS='|' read -ra PIPE_SPLIT <<< "${EQUAL_SPLIT[0]}"
     parameter_names+=("${PIPE_SPLIT[0]}")
     parameter_friendly_names+=("${PIPE_SPLIT[1]}")
@@ -68,17 +67,22 @@ function generate_menu() {
     local romPath="/opt/retropie/supplementary/varia-randomizer/files/rom.smc"
 
     if [ ! -f "$romPath" ]; then
-        dialog --title "Not found Rom" --msgbox "Searching for super metroid rom" 6 20
+	dialog --infobox "Searching for Super Metroid Rom" 19 80
         hasRom "snes" "Super Metroid"
+
         if [[ "$?" == "1" ]]; then
+	    dialog --infobox "Copying Original Super Metroid Rom" 19 80
+	    sleep 1
             copyRom "snes" "Super Metroid" "$romPath"
-            echo "copied rom"
         else
-            dialog --title "Error" --msgbox "Cannot copy rom Super Metroid" 6 20
+            dialog --title "Error" --msgbox "Cannot copy rom Super Metroid" 19 80
             exit
         fi
+
+	if [ !-f "$romPath" ]; then
+		dialog --title "Error" --msgbox "Cannot copy super metroid source rom" 19 80
+	fi
     fi
-#    exit
 
     while true; do
 	    # Remake options
@@ -87,39 +91,30 @@ function generate_menu() {
 	    do
         	newIndex=$((i+1))
         	options+=($newIndex "${parameter_friendly_names[$i]} - ${parameter_values[$i]}")
-#		options[($i * 2)]=$newIndex
-#		options[($i * 2 + 1)]="${parameter_friendly_names[$i]} - ${parameter_values[$i]}"
-#		options+=($newIndex)
-#		options+="Test"
-
 	    done
     	options+=("G" "Generate")
-#exit
 
     	# Show dialog
 	cmd=(dialog --title " Generate Rom " --menu "Varia Randomizer Rom. Randomize your rom with the varia randomizer" 19 80 12)
-#	echo $cmd
-#exit
-	echo "${cmd[@]}" "${options[@]}"
-#	exit
     	choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
-#exit
+
     	if [[ -n "$choice" ]]; then
     	    if [[ "$choice" == "G" ]]; then
     	        generate
+		dialog --msgbox "Generated Random Rom\n\nYou will need to restart EmulationStation to update description metadata" 19 80
     	        break
     	    else
-#		echo "Test"
     	        generate_sub_menu $choice
     	    fi
     	else
     	    break
     	fi
-#	break
     done
 } # end of main_menu()
 
 function generate() {
+
+    dialog --infobox "Generating Random Rom" 19 80
 
     # Generate single argument string
     string_args=""
@@ -129,9 +124,8 @@ function generate() {
     done
 
     # Generate
-	#clear
-	/bin/bash /opt/retropie/supplementary/varia-randomizer/varia-randomizer-generate.sh $string_args
-	echo "Generated"
+    /bin/bash /opt/retropie/supplementary/varia-randomizer/varia-randomizer-generate.sh $string_args
+    exit
 }
 
 function main_menu() {
@@ -174,5 +168,4 @@ function install_menu() {
     choice=$("${cmd[@]}" "${options_games[@]}" 2>&1 >/dev/tty)
 }
 
-#main_menu
 generate_menu
