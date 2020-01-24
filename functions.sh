@@ -37,7 +37,11 @@ function addGameToXml()
 #
 function hasRom() {
     home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
-    xml_command="xmlstarlet sel -t -c \"count(/gameList/game[name='$2'])\" $home/../.emulationstation/gamelists/$1/gamelist.xml"
+    gameListPath="$home/../.emulationstation/gamelists/$1/gamelist.xml"
+    if [ ! -f "$gameListPath" ]; then
+        return 0
+    fi
+    xml_command="xmlstarlet sel -t -c \"count(/gameList/game[name='$2'])\" $gameListPath"
     count=$(eval $xml_command)
     if [[ "$count" == "0" ]]; then
         return 0
