@@ -75,12 +75,13 @@ function generate_menu() {
 	    sleep 1
             copyRom "snes" "Super Metroid" "$romPath"
         else
-            dialog --title "Error" --msgbox "Cannot copy rom Super Metroid" 19 80
+            dialog --title "Error" --msgbox "Cannot find 'Super Metroid' in xml gamelist" 19 80
             exit
         fi
 
-	if [ !-f "$romPath" ]; then
-		dialog --title "Error" --msgbox "Cannot copy super metroid source rom" 19 80
+	if [ ! -f "$romPath" ]; then
+		dialog --title "Error" --msgbox "Failed to copy super metroid source rom" 19 80
+		exit
 	fi
     fi
 
