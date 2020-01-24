@@ -67,11 +67,11 @@ function generate_menu() {
     local romPath="/opt/retropie/supplementary/varia-randomizer/files/rom.smc"
 
     if [ ! -f "$romPath" ]; then
-	dialog --infobox "Searching for Super Metroid Rom" 19 80
+	dialog --infobox "Searching for Super Metroid Rom..." 19 80
         hasRom "snes" "Super Metroid"
 
         if [[ "$?" == "1" ]]; then
-	    dialog --infobox "Copying Original Super Metroid Rom" 19 80
+	    dialog --infobox "Copying Original Super Metroid Rom..." 19 80
 	    sleep 1
             copyRom "snes" "Super Metroid" "$romPath"
         else
@@ -101,8 +101,8 @@ function generate_menu() {
     	if [[ -n "$choice" ]]; then
     	    if [[ "$choice" == "G" ]]; then
     	        generate
-		dialog --msgbox "Generated Random Rom\n\nYou will need to restart EmulationStation to update description metadata" 19 80
-    	        break
+		dialog --title "Generated" --msgbox "Good Luck!\n\nMay the odds be ever in your favour!\n\nYou may want to restart EmulationStation to update description metadata" 19 80
+		exit
     	    else
     	        generate_sub_menu $choice
     	    fi
@@ -114,7 +114,7 @@ function generate_menu() {
 
 function generate() {
 
-    dialog --infobox "Generating Random Rom" 19 80
+    dialog --infobox "Generating Random Rom..." 19 80
 
     # Generate single argument string
     string_args=""
@@ -125,7 +125,6 @@ function generate() {
 
     # Generate
     /bin/bash /opt/retropie/supplementary/varia-randomizer/varia-randomizer-generate.sh $string_args
-    exit
 }
 
 function main_menu() {
