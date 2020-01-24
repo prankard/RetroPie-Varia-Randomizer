@@ -1,5 +1,9 @@
 # RetroPie-Varia-Randomizer
 
+## Requirements
+
+For the plugin to work, it searches for a game called 'Super Metroid' in your snes game lists. Ensure you have the Super Metroid rom and you have successfully scrapped or added the correct meta-data to RetroPie to have the name 'Super Metroid'.
+
 ## Installation
 
 1. If you're on EmulationStation, press `F4` to go to the Command Line Interface.
