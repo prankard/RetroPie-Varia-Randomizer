@@ -15,10 +15,8 @@
 #   Nothing
 #
 function hasRom() {
-    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
-    
-    call="getRomPath \"$1\" \"$2\" \"$3\""
-    romPath=$(eval $call)
+    local call="getRomPath \"$1\" \"$2\" \"$3\""
+    local romPath=$(eval $call)
     echo $romPath
 
     if [[ -f "$romPath" ]]; then
@@ -183,6 +181,7 @@ function addGameToXML() {
 #
 function getGamelistPath()
 {
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
     gamelistPath="$home/roms/$1/gamelist.xml"
     if [[ ! -f $gamelistPath ]]; then
         gamelistPath="$home/../.emulationstation/gamelists/$1/gamelist.xml"
