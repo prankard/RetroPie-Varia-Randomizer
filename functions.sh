@@ -121,9 +121,9 @@ function getRomPath() {
 #   0 Fail
 #
 function addGameToXML() {
-    gamelistPath=$(eval getGamelistPath $1)
+    local gamelistPath=$(eval getGamelistPath $1)
 
-    if [[ ! -f "$gamelistPath" ]]; then
+    if [[ -f "$gamelistPath" ]]; then
         xml_command="xmlstarlet sel -t -c \"/gameList/game[name='${2}']\" $gamelistPath"
         #echo $xml_command
         xmlNode=$(eval $xml_command)
