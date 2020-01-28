@@ -48,21 +48,21 @@ function copyRom() {
     call="getRomPath \"$1\" \"$2\" \"$3\""
     full_path=$(eval $call)
 
-    source_rom_ext="${rom_filename##*.}"
-    dest_rom_ext="${3#*.}"
+    source_rom_ext="${full_path##*.}"
+    dest_rom_ext="${4#*.}"
     
     echo $source_rom_ext
     echo $dest_rom_ext
 
     if [[ "$source_rom_ext" == "zip" ]]; then
-        line="unzip -d /opt/retropie/supplementary/varia-randomizer/files/dump $full_path"
+        line="unzip -d /opt/retropie/supplementary/varia-randomizer/files/dump \"$full_path\""
         eval $line
         for f in "/opt/retropie/supplementary/varia-randomizer/files/dump/*.$dest_rom_ext"
         do
             FILENAME=$(basename $f .$des_trom_ext)
             break
         done
-        line="mv /opt/retropie/supplementary/varia-randomizer/files/dump/'$FILENAME' $4"
+        line="mv \"/opt/retropie/supplementary/varia-randomizer/files/dump/'$FILENAME'\" \"$4\""
         echo $line
         eval $line
         echo "unzipped"
