@@ -62,7 +62,7 @@ function copyRom() {
             FILENAME=$(basename $f .$des_trom_ext)
             break
         done
-        line="mv \"/opt/retropie/supplementary/varia-randomizer/files/dump/'$FILENAME'\" \"$4\""
+        line="mv \"/opt/retropie/supplementary/varia-randomizer/files/dump/$FILENAME\" \"$4\""
         echo $line
         eval $line
         echo "unzipped"
