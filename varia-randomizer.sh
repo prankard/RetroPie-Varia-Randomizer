@@ -68,12 +68,12 @@ function generate_menu() {
 
     if [ ! -f "$romPath" ]; then
 	dialog --infobox "Searching for Super Metroid Rom..." 19 80
-        hasRom "snes" "Super Metroid"
+        hasRom "snes" "Super Metroid" "SuperMetroid.smc"
 
         if [[ "$?" == "1" ]]; then
 	    dialog --infobox "Copying Original Super Metroid Rom..." 19 80
 	    sleep 1
-            copyRom "snes" "Super Metroid" "$romPath"
+            copyRom "snes" "Super Metroid" "SuperMetroid.smc" "$romPath"
         else
             dialog --title "Error" --msgbox "Cannot find 'Super Metroid' in xml gamelist" 19 80
             exit
