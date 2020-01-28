@@ -183,9 +183,9 @@ function getGamelistPath()
 {
     home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
     gamelistPath="$home/roms/$1/gamelist.xml"
-    if [[ ! -f $gamelistPath ]]; then
+    if [[ ! -f "$gamelistPath" ]]; then
         gamelistPath="$home/../.emulationstation/gamelists/$1/gamelist.xml"
-        if [[ ! -f $gamelistPath ]]; then
+        if [[ ! -f "$gamelistPath" ]]; then
             gamelistPath=""
         fi
     fi
