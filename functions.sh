@@ -15,10 +15,8 @@
 #   Nothing
 #
 function hasRom() {
-    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
-    
-    call="getRomPath \"$1\" \"$2\" \"$3\""
-    romPath=$(eval $call)
+    local call="getRomPath \"$1\" \"$2\" \"$3\""
+    local romPath=$(eval $call)
     echo $romPath
 
     if [[ -f "$romPath" ]]; then
@@ -50,21 +48,21 @@ function copyRom() {
     call="getRomPath \"$1\" \"$2\" \"$3\""
     full_path=$(eval $call)
 
-    source_rom_ext="${rom_filename##*.}"
-    dest_rom_ext="${3#*.}"
+    source_rom_ext="${full_path##*.}"
+    dest_rom_ext="${4#*.}"
     
     echo $source_rom_ext
     echo $dest_rom_ext
 
     if [[ "$source_rom_ext" == "zip" ]]; then
-        line="unzip -d /opt/retropie/supplementary/varia-randomizer/files/dump $full_path"
+        line="unzip -d /opt/retropie/supplementary/varia-randomizer/files/dump \"$full_path\""
         eval $line
         for f in "/opt/retropie/supplementary/varia-randomizer/files/dump/*.$dest_rom_ext"
         do
             FILENAME=$(basename $f .$des_trom_ext)
             break
         done
-        line="mv /opt/retropie/supplementary/varia-randomizer/files/dump/'$FILENAME' $4"
+        line="mv \"/opt/retropie/supplementary/varia-randomizer/files/dump/$FILENAME\" \"$4\""
         echo $line
         eval $line
         echo "unzipped"
@@ -123,9 +121,9 @@ function getRomPath() {
 #   0 Fail
 #
 function addGameToXML() {
-    gamelistPath=$(eval getGamelistPath $1)
+    local gamelistPath=$(eval getGamelistPath $1)
 
-    if [[ ! -f $gamelistPath ]]; then
+    if [[ -f "$gamelistPath" ]]; then
         xml_command="xmlstarlet sel -t -c \"/gameList/game[name='${2}']\" $gamelistPath"
         #echo $xml_command
         xmlNode=$(eval $xml_command)
@@ -183,10 +181,11 @@ function addGameToXML() {
 #
 function getGamelistPath()
 {
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
     gamelistPath="$home/roms/$1/gamelist.xml"
-    if [[ ! -f $gamelistPath ]]; then
+    if [[ ! -f "$gamelistPath" ]]; then
         gamelistPath="$home/../.emulationstation/gamelists/$1/gamelist.xml"
-        if [[ ! -f $gamelistPath ]]; then
+        if [[ ! -f "$gamelistPath" ]]; then
             gamelistPath=""
         fi
     fi
