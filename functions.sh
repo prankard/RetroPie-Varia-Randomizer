@@ -51,8 +51,12 @@ function copyRom() {
     source_rom_ext="${full_path##*.}"
     dest_rom_ext="${4#*.}"
     
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
+    echo $home
     echo $source_rom_ext
     echo $dest_rom_ext
+
+    mkdir -p $home/../.varia-randomizer/dump
 
     if [[ "$source_rom_ext" == "zip" ]]; then
         line="unzip -d $home/../.varia-randomizer/dump \"$full_path\""

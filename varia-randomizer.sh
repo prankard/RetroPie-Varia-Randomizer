@@ -68,6 +68,7 @@ function check_rom() {
     local home="$(eval echo ~$user)"
     home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
     mkdir -p $home/../.varia-randomizer
+    chmod 777 $home/../.varia-randomizer
     local romPath="$home/../.varia-randomizer/rom.smc"
 
     if [ ! -f "$romPath" ]; then
