@@ -14,7 +14,7 @@ TMP_DIR="$home/tmp"
 
 #TEMP=/opt/retropie/supplementary/varia-randomizer/files/TEMP
 #OUTPUT=$SCRIPTPATH/generated.smc
-VANILLA=/opt/retropie/supplementary/varia-randomizer/files/rom.smc
+VANILLA=$home/../.varia-randomizer/rom.smc
 #OUTPUT=/opt/retropie/supplementary/varia-randomizer/files/generated.smc
 #OUTPUT=/home/pi/RetroPie/roms/snes/varia-randomizer 
 rm -r -f $TMP_DIR

@@ -32,3 +32,21 @@ emulationstation
 Of course, full credit to the [varia randomizer](https://randommetroidsolver.pythonanywhere.com/) which you can run on a web browser to generate roms, and full source found [here](https://github.com/theonlydude/RandomMetroidSolver). Down in that repo is where all the hard work is located.
 
 Thanks to the source files of [RetroPie Joystick Selection](https://github.com/meleu/RetroPie-joystick-selection) for their decent plugin that is very useful to follow and basic blatent copying of installation technique and scriptmodule setup
+
+
+
+## TODO
+
+#### Manidtory
+
+- Make sure the initial copy of the file/original rom does not require root access to do so
+  ~/.emulation ~/.varia-randomizer/rom.smc + remove old files directory
+- Settings preset to be added
+
+#### Nice to have
+
+- Change order of options to match python anywhere
+
+- Save the user's params, and add default parameters
+
+- Make progression speed and majors split optional (as it's set already in settings and skills preset) - maybe add all options to be optional

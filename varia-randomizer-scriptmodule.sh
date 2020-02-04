@@ -27,6 +27,8 @@ function sources_varia-randomizer() {
     chmod 777 "$md_build/files"
     user="$SUDO_USER"
     [[ -z "$user" ]] && user="$(id -un)"
+
+    
     chown "$user:$user" "$md_build/files"
     sed -i "s/appDir =.*/appDir = \"\/opt\/retropie\/supplementary\/varia-randomizer\/varia\"/g" $md_build/varia/parameters.py
 }

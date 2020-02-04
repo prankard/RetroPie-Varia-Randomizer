@@ -61,29 +61,39 @@ function generate_sub_menu()
     fi
 } #end sub_menu
 
-# Choose between global config, system specific config, toggle byname
-function generate_menu() {
-
-    local romPath="/opt/retropie/supplementary/varia-randomizer/files/rom.smc"
+## Copys and checks the local rom
+function check_rom() {
+    user="$SUDO_USER"
+    [[ -z "$user" ]] && user="$(id -un)"
+    local home="$(eval echo ~$user)"
+    home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
+    mkdir -p $home/../.varia-randomizer
+    local romPath="$home/../.varia-randomizer/rom.smc"
 
     if [ ! -f "$romPath" ]; then
-	dialog --infobox "Searching for Super Metroid Rom..." 19 80
+	    dialog --infobox "Searching for Super Metroid Rom..." 19 80
         hasRom "snes" "Super Metroid" "SuperMetroid.smc"
 
         if [[ "$?" == "1" ]]; then
-	    dialog --infobox "Copying Original Super Metroid Rom..." 19 80
-	    sleep 1
+	        dialog --infobox "Copying Original Super Metroid Rom..." 19 80
+	        sleep 1
             copyRom "snes" "Super Metroid" "SuperMetroid.smc" "$romPath"
         else
             dialog --title "Error" --msgbox "Cannot find 'Super Metroid' in xml gamelist" 19 80
             exit
         fi
 
-	if [ ! -f "$romPath" ]; then
-		dialog --title "Error" --msgbox "Failed to copy super metroid source rom" 19 80
-		exit
-	fi
+    	if [ ! -f "$romPath" ]; then
+	    	dialog --title "Error" --msgbox "Failed to copy super metroid source rom" 19 80
+		    exit
+    	fi
     fi
+
+    exit
+}
+
+# Choose between global config, system specific config, toggle byname
+function generate_menu() {
 
     while true; do
 	    # Remake options
@@ -168,4 +178,5 @@ function install_menu() {
     choice=$("${cmd[@]}" "${options_games[@]}" 2>&1 >/dev/tty)
 }
 
+check_rom
 generate_menu
