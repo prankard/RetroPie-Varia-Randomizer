@@ -76,8 +76,8 @@ function check_rom() {
         hasRom "snes" "Super Metroid" "SuperMetroid.smc"
 
         if [[ "$?" == "1" ]]; then
-	        dialog --infobox "Copying Original Super Metroid Rom..." 19 80
-	        sleep 1
+	    dialog --infobox "Copying Original Super Metroid Rom..." 19 80
+	    sleep 1
             copyRom "snes" "Super Metroid" "SuperMetroid.smc" "$romPath"
         else
             dialog --title "Error" --msgbox "Cannot find 'Super Metroid' in xml gamelist" 19 80
@@ -85,12 +85,12 @@ function check_rom() {
         fi
 
     	if [ ! -f "$romPath" ]; then
-	    	dialog --title "Error" --msgbox "Failed to copy super metroid source rom" 19 80
-		    exit
+	    dialog --title "Error" --msgbox "Failed to copy super metroid source rom" 19 80
+	    exit
     	fi
     fi
 
-    exit
+    #exit
 }
 
 # Choose between global config, system specific config, toggle byname
