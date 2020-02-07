@@ -41,6 +41,8 @@ do
         break
 done
 #echo $FILENAME
+DESC=$(echo "${FILENAME//_/ }")
+echo $DESC
 
 mv $TMP_DIR/*.sfc $OUTPUT
 rm -r -f $TMP_DIR
@@ -48,7 +50,9 @@ rm -r -f $TMP_DIR
 
 
 source "/opt/retropie/supplementary/varia-randomizer/functions.sh"
-addGameToXML "snes" "Super Metroid Randomized" "./SuperMetroidRandomized.smc" "$FILENAME" "Super Metroid"
+addGameToXML "snes" "Super Metroid Randomized" "./SuperMetroidRandomized.smc" "$DESC" "Super Metroid"
+
+#sleep 10
 
 #xmlstarlet edit --inplace --update "/gameList/game[path='./SuperMetroidRandomized.smc']/desc" --value "$FILENAME" $home/../.emulationstation/gamelists/snes/gamelist.xml
 #emulationstation &

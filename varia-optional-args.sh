@@ -5,5 +5,9 @@
 optional_args=
 
 # Example
+# Other args can be found in: https://github.com/theonlydude/RandomMetroidSolver/blob/master/randomizer.py
 # Controls order: Shoot,Jump,Dash,ItemSelect,ItemCancel,AngleUp,AngleDown
-optional_args="--moonwalk --invert --controls A,B,X,Y,L,R,Select,None"
+# Controls options: A,B,X,Y,L,R,Select,None
+# Setup for zoast controls
+
+#optional_args="--moonwalk --controls Y,A,B,X,Select,R,L"
