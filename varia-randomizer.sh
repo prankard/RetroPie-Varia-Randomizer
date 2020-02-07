@@ -4,37 +4,45 @@
 #readonly rootdir="/opt/retropie"
 #source "$rootdir/lib/inifuncs.sh"
 source "/opt/retropie/supplementary/varia-randomizer/functions.sh"
-PARAMS_FILE=/opt/retropie/supplementary/varia-randomizer/varia-parameters.ini
+PARAMS_FILE=/opt/retropie/supplementary/varia-randomizer/varia-settings-parameters.ini
 
 parameter_names=()
+parameter_friendly_names=()
+
 parameter_values=()
-parameter_default_values=()
+#parameter_default_values=()
 parameter_friendly_values=()
 
 arguments=()
 
 myarray=()
-let i=0
-while IFS=$'\n' read -r line_data; do
-    echo $line_data
-    IFS='=' read -ra EQUAL_SPLIT <<< "$line_data"
-    IFS='|' read -ra PIPE_SPLIT <<< "${EQUAL_SPLIT[0]}"
-    parameter_names+=("${PIPE_SPLIT[0]}")
-    parameter_friendly_names+=("${PIPE_SPLIT[1]}")
-    IFS='|' read -ra PIPE_SPLIT <<< "${EQUAL_SPLIT[1]}"
-    parameter_default_values+=("${PIPE_SPLIT[0]}")
-    parameter_values+=("${PIPE_SPLIT[0]}")
 
-    echo "${PIPE_SPLIT[0]}"
-
-    # Parse “${line_data}” to produce content 
-    # that will be stored in the array.
-    # (Assume content is stored in a variable 
-    # named 'array_element'.)
-    # ...
-    myarray[i]="${array_element}" # Populate array.
-    ((++i))
-done < $PARAMS_FILE
+function read_params_file()
+{
+    let i=0
+    while IFS=$'\n' read -r line_data; do
+        echo $line_data
+        IFS='=' read -ra EQUAL_SPLIT <<< "$line_data"
+        IFS='|' read -ra PIPE_SPLIT <<< "${EQUAL_SPLIT[0]}"
+        parameter_names+=("${PIPE_SPLIT[0]}")
+        parameter_friendly_names+=("${PIPE_SPLIT[1]}")
+        IFS=';' read -ra SEMIC_SPLIT <<< "${EQUAL_SPLIT[1]}"
+        IFS='|' read -ra PIPE_SPLIT <<< "${SEMIC_SPLIT[0]}"
+#        parameter_default_values+=("${PIPE_SPLIT[1]}")
+        parameter_values+=("${PIPE_SPLIT[0]}")
+        parameter_friendly_values+=("${PIPE_SPLIT[1]}")
+    
+        echo "${PIPE_SPLIT[1]}"
+    
+        # Parse “${line_data}” to produce content 
+        # that will be stored in the array.
+        # (Assume content is stored in a variable 
+        # named 'array_element'.)
+        # ...
+        myarray[i]="${array_element}" # Populate array.
+        ((++i))
+    done < $PARAMS_FILE
+}
 
 # Docuemnt this to include 1 param
 function generate_sub_menu()
@@ -44,20 +52,24 @@ function generate_sub_menu()
     index=$1
     line_data2=$(sed "${index}q;d" $PARAMS_FILE)
     IFS='=' read -ra EQUAL_SPLIT2 <<< "$line_data2"
-    IFS='|' read -ra PIPE_SPLIT2 <<< "${EQUAL_SPLIT2[1]}"
+    IFS=';' read -ra SEMIC_SPLIT2 <<< "${EQUAL_SPLIT2[1]}"
     sub_options=()
-    for i in "${!PIPE_SPLIT2[@]}"
+    sub_options_friendly=()
+    for i in "${!SEMIC_SPLIT2[@]}"
     do
-        sub_options+=($i "${PIPE_SPLIT2[$i]}")
+        IFS='|' read -ra PIPE_SPLIT2 <<< "${SEMIC_SPLIT2[$i]}"
+        sub_options_friendly+=($i "${PIPE_SPLIT2[1]}")
+        sub_options+=($i "${PIPE_SPLIT2[0]}")
     done
 
     cmd=(dialog \
          --title " Submenu " \
          --menu "Submenu description" 19 80 12
     )
-    choice=$("${cmd[@]}" "${sub_options[@]}" 2>&1 >/dev/tty)
+    choice=$("${cmd[@]}" "${sub_options_friendly[@]}" 2>&1 >/dev/tty)
     if [[ -n "$choice" ]]; then
         parameter_values[$((index-1))]="${sub_options[$((choice*2+1))]}"
+        parameter_friendly_values[$((index-1))]="${sub_options_friendly[$((choice*2+1))]}"
     fi
 } #end sub_menu
 
@@ -100,7 +112,7 @@ function generate_menu() {
 	    for i in "${!parameter_names[@]}"
 	    do
         	newIndex=$((i+1))
-        	options+=($newIndex "${parameter_friendly_names[$i]} - ${parameter_values[$i]}")
+        	options+=($newIndex "${parameter_friendly_names[$i]} - ${parameter_friendly_values[$i]}")
 	    done
     	options+=("G" "Generate")
 
@@ -178,4 +190,5 @@ function install_menu() {
 }
 
 check_rom
+read_params_file
 generate_menu

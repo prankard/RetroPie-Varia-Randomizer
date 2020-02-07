@@ -48,5 +48,6 @@ Thanks to the source files of [RetroPie Joystick Selection](https://github.com/m
 - [x] Twoey mandatory suggestion, never use 777 
 - [x] Change order of options to match python anywhere
 - [ ] Save the user's params, and add default parameters
+- [x] Add friendly names to parameter arguments
 - [ ] Make progression speed and majors split optional (as it's set already in settings and skills preset) - maybe add all options to be optional
 - [x] Another file to load in extra parameters for users who want to change controls etc
