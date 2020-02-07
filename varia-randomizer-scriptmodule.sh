@@ -93,8 +93,8 @@ function remove_varia-randomizer() {
     xmlstarlet ed -P -L -d "/gameList/game[contains(path,'$scriptname')]" "$datadir/retropiemenu/gamelist.xml"
 }
 
-function gui_varia-randomizer() {
+#function gui_varia-randomizer() {
     #bash "$md_inst/${PLUGIN_NAME}.sh"
-    bash "$md_inst/varia-randomizer.sh"
-}
+    #bash "$md_inst/varia-randomizer.sh"
+#}
 
