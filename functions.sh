@@ -163,6 +163,7 @@ function addGameToXML() {
         else
             # update old node element with new values
             xml_command="xmlstarlet ed --inplace -u \"/gameList/game[name='${2}']/path\" -v \"$3\" -u \"/gameList/game[name='${2}']/desc\" -v \"$4\" $gamelistPath"
+	    echo "$xml_command"
             eval $xml_command
             echo "Updated old node"
         fi
