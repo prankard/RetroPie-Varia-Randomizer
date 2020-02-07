@@ -80,6 +80,7 @@ function install_varia-randomizer() {
         'varia-randomizer-generate.sh'
         'varia-parameters.ini'
         'varia-config.ini'
+        'varia-optional-args.sh'
 	    'varia'
 	    'files'
     )

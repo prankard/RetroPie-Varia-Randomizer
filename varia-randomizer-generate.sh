@@ -1,4 +1,5 @@
 #!/bin/bash
+source "/opt/retropie/supplementary/varia-randomizer/varia-optional-args.sh"
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 user="$SUDO_USER"
@@ -30,7 +31,7 @@ args_as_string="$*"
 ##echo "$str"
 #echo "python3 randomizer.py --rom $VANILLA --dir $TEMP --runtime 0 $args_as_string"
 #python3 randomizer.py --rom $VANILLA --dir $TEMP --majorsSplit Major --param standard_presets/casual.json
-python3 randomizer.py --rom $VANILLA --dir $TMP_DIR --runtime 999999999 $args_as_string
+python3 randomizer.py --rom $VANILLA --dir $TMP_DIR --runtime 999999999 $args_as_string $optional_args
 cd ..
 
 FILENAME=""
