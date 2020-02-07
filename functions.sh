@@ -49,7 +49,7 @@ function copyRom() {
     full_path=$(eval $call)
 
     source_rom_ext="${full_path##*.}"
-    dest_rom_ext="${4#*.}"
+    dest_rom_ext="${4##*.}"
     
     home="$(find /home -type d -name RetroPie -print -quit 2> /dev/null)"
     echo $home
@@ -63,10 +63,10 @@ function copyRom() {
         eval $line
         for f in "$home/../.varia-randomizer/dump/*.$dest_rom_ext"
         do
-            FILENAME=$(basename $f .$des_trom_ext)
+            FILENAME=$(basename $f .$dest_rom_ext)
             break
         done
-        line="mv \"$home/../.varia-randomizer/dump/$FILENAME\" \"$4\""
+        line="mv \"$home/../.varia-randomizer/dump/${FILENAME}.${dest_rom_ext}\" \"$4\""
         echo $line
         eval $line
         echo "unzipped"
